@@ -1,48 +1,56 @@
 function Flights() {
-        function calculateNumberOfFlights(passengers, capacity) {
-           let flights;
-
-           if ((passengers < 0 || (!Number.isInteger(passengers)))) {
-               throw new Error("Number of passengers must be a positive integer");
-           }
-
-           if ((capacity < 0 || (!Number.isInteger(capacity)))) {
-               throw new Error("Flight capacity must be a positive integer");
-           }
-           
-           if(passengers % capacity === 0) {
-               flights = passengers / capacity;
-           }
-           else {
-               flights = Math.floor(passengers / capacity) + 1;
-           }
-           return flights;
-        }
-
-        function checkAircraftRevision(distanceLimit, distanceArray) {
-            let totalDistance = 0;
-            let distance;
-            for(distance of distanceArray) {
-                totalDistance += distance;
-                }
-                if (totalDistance > distanceLimit) {
-                    throw new Error("Flight maximum allowed distance (" + distanceLimit + ") exceeded. No flight is allowed any longer");
-                }
-            
-                if (totalDistance < distanceLimit/2) {
-                    return "The revision needs to be done within the next 3 months";
-                } else if (totalDistance < distanceLimit/4) {
-                    return "The revision needs to be done within the next 2 months";
-                } else {
-                    return "The revision needs to be done within the next month";
-                }
-            }
-            
-            
-            
-        
-       return (calculateNumberOfFlights, checkAircraftRevision);
+    function calculateNumberOfFlights(numPassengers, capacity) {
+      if (numPassengers < 0 || numPassengers % 1 !== 0) {
+        throw new Error(
+          "The number of passengers must be a positive integer value"
+        );
+      }
+  
+      if (capacity < 0 || capacity % 1 !== 0) {
+        throw new Error(
+          "The capacity of the flight must be a positive integer value"
+        );
+      }
+  
+      return Math.ceil(numPassengers / capacity);
     }
+  
+    function checkAircraftRevision(distanceLimit, distances) {
+      let totalDistance = 0;
+  
+      for (let i = 0; i < distances.length; i++) {
+        totalDistance += distances[i];
+      }
+  
+      //If the total distance is less or equal than half of the distance limit, you return a string "The revision needs to be done within the next 3 months".
+      if (totalDistance <= distanceLimit / 2) {
+        return "The revision needs to be done within the next 3 months";
+      }
+  
+      //If the total distance is more than half but less or equal than 3 quarters of the distance limit, you return a string "The revision needs to be done within the next 2 months".
+      if (
+        totalDistance > distanceLimit / 2 &&
+        totalDistance <= distanceLimit * 0.75
+      ) {
+        return "The revision needs to be done within the next 2 months";
+      }
+  
+      //If the total distance is more than 3 quarters of the distance limit but less or equal than the distance limit, you return a string "The revision needs to be done within the next month".
+      if (
+        totalDistance > distanceLimit * 0.75 &&
+        totalDistance <= distanceLimit
+      ) {
+        return "The revision needs to be done within the next month";
+      }
+  
+      //If the total distance is more than the distance limit, you throw an error.
+      if (totalDistance > distanceLimit) {
+        throw new Error("Total distance is more than the distance limit");
+      }
+    }
+  
+    return { calculateNumberOfFlights, checkAircraftRevision };
+  }
 
 module.exports = Flights;
 

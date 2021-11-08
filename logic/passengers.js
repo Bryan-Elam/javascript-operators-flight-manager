@@ -5,7 +5,7 @@ function Passengers() {
         let passengers;
 
         for(passengers of passengersArray) {
-            passengersNumber += passengers.number;
+            passengersNumber += passengers;
         }
 
         if (passengersNumber > flightCapacity) {
@@ -49,7 +49,8 @@ function Passengers() {
             while  (configuration.passengers > 0) {
                 if (configuration.seats > 0) {
                     if (configuration.passengers >= configuration.seats) {
-                        configuration.passengers -= configuration.seatsPerFlight;
+                    if (configuration.seats > configuration.seatsPerFlight) {
+                        configuration.passengers -= seatsPerFlight;    
                         configuration.seats -= seatsPerFlight;
                         passengersWithSeats += seatsPerFlight;
                     } else {
@@ -61,15 +62,14 @@ function Passengers() {
                     passengersWithSeats += configuration.passengers;
                     configuration.seats -= configuration.passengers;
                     configuration.passengers = 0;
-                }
+                } 
             } else {
                 break;
-            
-          }
+            }
           return passengersWithSeats;
         }
         
-    
+        }
     
     return (checkFlightCapacity, distributeAllSeatsToAllPassengers);
 }
